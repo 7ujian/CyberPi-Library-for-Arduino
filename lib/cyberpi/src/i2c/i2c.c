@@ -3,7 +3,7 @@ void i2c_init()
 {
     gpio_config_t io_conf;
     io_conf.intr_type = GPIO_PIN_INTR_DISABLE;   
-    io_conf.mode = GPIO_MODE_DISABLE;//
+    io_conf.mode = GPIO_MODE_DISABLE;
     io_conf.pin_bit_mask = (1 << I2C_MASTER_SCL_IO);
     io_conf.pull_down_en = 0;
     io_conf.pull_up_en = 0;
@@ -15,12 +15,13 @@ void i2c_init()
     i2c_config_t conf;
     conf.mode = I2C_MODE_MASTER;
     conf.sda_io_num = I2C_MASTER_SDA_IO;
-    conf.sda_pullup_en = 0;
     conf.scl_io_num = I2C_MASTER_SCL_IO;
-    conf.scl_pullup_en = 0;
+    conf.sda_pullup_en = GPIO_PULLUP_ENABLE;
+    conf.scl_pullup_en = GPIO_PULLUP_ENABLE;
     conf.master.clk_speed = 400000;
-    i2c_driver_install(i2c_master_port, conf.mode,0,0,0);
+    conf.clk_flags = I2C_SCLK_SRC_FLAG_FOR_NOMAL;
     i2c_param_config(i2c_master_port, &conf);
+    i2c_driver_install(i2c_master_port, conf.mode,0,0,0);
 
 }
 
