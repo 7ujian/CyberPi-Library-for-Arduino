@@ -201,7 +201,6 @@ typedef struct {
     es_lclk_div_t lclk_div;    /*!< WS clock divide */
 } es_i2s_clock_t;
 
-void es8218e_init(void);
 void es8218e_config_fmt(es_i2s_fmt_t cfg);
 void es8218e_start(void);
 void es8218e_stop(void);

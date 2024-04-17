@@ -339,20 +339,20 @@ float CyberPi::get_pitch()
 void CyberPi::begin_sound()
 {
     sound_enabled = true;
-    aw_digitalWrite(AW_P1_3,1);
-    i2s_config_t i2s_config = {
-        .mode = (i2s_mode_t)(I2S_MODE_MASTER | I2S_MODE_TX | I2S_MODE_DAC_BUILT_IN ),
+    aw_digitalWrite(AW_P1_3, HIGH);
+	i2s_config_t i2s_config = {
+        .mode = (i2s_mode_t)(I2S_MODE_MASTER | I2S_MODE_TX | I2S_MODE_DAC_BUILT_IN),
         .sample_rate =  20000,
         .bits_per_sample = I2S_BITS_PER_SAMPLE_16BIT,
         .channel_format = I2S_CHANNEL_FMT_ONLY_RIGHT,
-        .communication_format = I2S_COMM_FORMAT_I2S_MSB,
         .intr_alloc_flags = 0,
         .dma_buf_count = 16,
         .dma_buf_len = 256,
-        }; 
-        i2s_driver_install(I2S_NUM_0, &i2s_config, 0, NULL);
-        i2s_set_dac_mode(I2S_DAC_CHANNEL_RIGHT_EN); 
-        i2s_set_clk(I2S_NUM_0, 20000, I2S_BITS_PER_SAMPLE_16BIT, I2S_CHANNEL_MONO);
+        .use_apll = 0,
+        .tx_desc_auto_clear = 0,
+	};
+    i2s_driver_install(I2S_NUM_0, &i2s_config, 0, NULL);
+    i2s_set_dac_mode(I2S_DAC_CHANNEL_RIGHT_EN); 
 
     _audio.begin((AudioBack)&CyberPi::_render_audio); 
 }
@@ -372,7 +372,7 @@ void CyberPi::_render_audio(uint8_t *audio_buf,uint16_t audio_buf_len)
         i2s_write(I2S_NUM_0, audio_buf, audio_buf_len, &bytes_written, portMAX_DELAY);
         if(_sound_callback)
         {
-            _sound_callback(audio_buf,audio_buf_len);
+            _sound_callback(audio_buf, audio_buf_len);
         }
     }
 }
@@ -437,7 +437,7 @@ void CyberPi::begin_microphone ()
         .sample_rate =  160000,
         .bits_per_sample = (i2s_bits_per_sample_t)16,
         .channel_format = (i2s_channel_fmt_t)I2S_CHANNEL_FMT_ONLY_RIGHT,
-        .communication_format = I2S_COMM_FORMAT_I2S,
+        .communication_format = I2S_COMM_FORMAT_STAND_I2S,
         .intr_alloc_flags = 0,
         .dma_buf_count = 2,
         .dma_buf_len = 1024,

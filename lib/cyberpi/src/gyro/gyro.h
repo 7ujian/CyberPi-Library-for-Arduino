@@ -95,7 +95,9 @@
 #define GYRO_AXIS_DIR     {1, 2, 3}
 
 #define MAX_I2C_RESTORE_SCL_CNT       (8 * 32)
+#ifndef PI
 #define PI 3.1415926535
+#endif
 #define ACC_FILTER                    (0.8)
 #define TILT_ANGLE_FILTER             (0.4)
 #define TILT_RANGE_GAIN               (0.2588) // cos(75)

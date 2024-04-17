@@ -282,7 +282,7 @@ class MSynth
       if(_audioBufIndex>=_audioBufLength)
       {
           _audioBufIndex = 0;
-           (*_audioBack)(_audioBuf,_audioBufLength);
+          (*_audioBack)(_audioBuf,_audioBufLength);
       }
       FTW[divider] = PITCH[divider] + (int) (((PITCH[divider]>>6)*(EPCW[divider]>>6))/128)*MOD[divider];
     }
